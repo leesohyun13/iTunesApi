@@ -13,7 +13,7 @@ interface ITunesApi {
     ): SongResponse
 
     companion object {
-        const val BASE_URL = "https://itunes.apple.com/"
+        const val ITUNES_BASE_URL = "https://itunes.apple.com/"
         const val DEFAULT_ENTITY = "song"
         const val DEFAULT_COUNTRY = "US"
 
