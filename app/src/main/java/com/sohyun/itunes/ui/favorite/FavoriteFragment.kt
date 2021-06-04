@@ -1,29 +1,21 @@
 package com.sohyun.itunes.ui.favorite
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sohyun.itunes.databinding.FavoriteFragmentBinding
+import com.sohyun.itunes.R
+import com.sohyun.itunes.databinding.FragmentFavoriteBinding
+import com.sohyun.itunes.ui.base.BaseFragment
 
-class FavoriteFragment : Fragment() {
-
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite)  {
     private val favoriteViewModel: FavoriteViewModel by viewModels()
-    private lateinit var binding: FavoriteFragmentBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FavoriteFragmentBinding.inflate(inflater, container, false).apply {
-            viewmodel = favoriteViewModel
-            lifecycleOwner = this@FavoriteFragment
-        }
-
-        return binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.viewmodel = favoriteViewModel
+        binding.lifecycleOwner = this@FavoriteFragment
     }
+
 
     companion object {
         fun newInstance() = FavoriteFragment()
