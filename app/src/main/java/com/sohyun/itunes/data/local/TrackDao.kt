@@ -13,7 +13,7 @@ interface TrackDao {
     fun getAll(): List<Track>
 
     @Query("SELECT * FROM track WHERE isFavorite == 1") // true = 1
-    fun getLikeList(): Flow<List<Track>> // 테이블의 데이터가 변경될 때마다 전체 결과 세트를 다시 내보냄
+    fun getFavoriteList(): Flow<List<Track>>
 
     @Insert
     fun insertItem(track: Track)
