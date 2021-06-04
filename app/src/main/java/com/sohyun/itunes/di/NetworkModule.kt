@@ -17,7 +17,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideKakaoApi(): ITunesApi {
+    fun provideITunesApi(): ITunesApi {
         return Retrofit.Builder()
             .baseUrl(ITUNES_BASE_URL)
             .client(OkHttpClient.Builder().build())
