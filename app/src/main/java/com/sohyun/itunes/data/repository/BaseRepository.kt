@@ -1,5 +1,6 @@
 package com.sohyun.itunes.data.repository
 
+import android.util.Log
 import com.sohyun.itunes.data.network.NetworkStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,6 +12,7 @@ abstract class BaseRepository {
             try {
                 NetworkStatus.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
+                Log.d("TAG", "safeApiCall: ${throwable}")
                 when (throwable) {
                     is HttpException -> {
                         NetworkStatus.Failure(isNetworkError = false, errorCode = throwable.code(), errorBody = throwable.response()?.errorBody())
