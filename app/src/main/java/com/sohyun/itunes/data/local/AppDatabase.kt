@@ -11,7 +11,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun trackDao(): TrackDao
 
     companion object {
-        private const val DATABASE_NAME = "kakao-cafe.db"
+        private const val DATABASE_NAME = "itunes-cafe.db"
 
         @Volatile
         private var INSTANCE: AppDatabase? = null
