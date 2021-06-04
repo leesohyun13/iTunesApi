@@ -1,6 +1,6 @@
 package com.sohyun.itunes.data.network
 
-import com.sohyun.itunes.data.model.Song
+import com.sohyun.itunes.data.model.SongResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,7 +9,7 @@ interface ITunesApi {
     suspend fun searchSong(
         @Query(SCHEMA_QUERY_TERM) term: String,
         @Query(SCHEMA_QUERY_ENTITY) entity: String = DEFAULT_ENTITY,
-    ): List<Song>
+    ): SongResponse
 
     companion object {
         const val ITUNES_BASE_URL = "https://itunes.apple.com/"
