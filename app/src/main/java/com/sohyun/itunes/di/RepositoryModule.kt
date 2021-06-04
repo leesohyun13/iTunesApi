@@ -1,5 +1,7 @@
 package com.sohyun.itunes.di
 
+import com.sohyun.itunes.data.local.SongLocalDataSource
+import com.sohyun.itunes.data.local.SongLocalDataSourceImpl
 import com.sohyun.itunes.data.repository.SongRepository
 import com.sohyun.itunes.data.repository.SongRepositoryImpl
 import dagger.Binds
@@ -13,5 +15,10 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindSongRepository(
         songRepositoryImpl: SongRepositoryImpl
-    ) : SongRepository
+    ): SongRepository
+
+    @Binds
+    abstract fun bindSongLocalDataSource(
+        songLocalDataSourceImpl: SongLocalDataSourceImpl
+    ): SongLocalDataSource
 }
