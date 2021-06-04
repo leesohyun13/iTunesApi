@@ -12,7 +12,6 @@ abstract class BaseRepository {
             try {
                 NetworkStatus.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
-                Log.d("TAG", "safeApiCall: ${throwable}")
                 when (throwable) {
                     is HttpException -> {
                         NetworkStatus.Failure(isNetworkError = false, errorCode = throwable.code(), errorBody = throwable.response()?.errorBody())
