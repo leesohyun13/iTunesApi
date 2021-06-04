@@ -2,7 +2,7 @@ package com.sohyun.itunes.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SongResponse(
+data class Song (
     @SerializedName("wrapperType")
     val wrapperType: String,
     @SerializedName("collectionExplicitness")
