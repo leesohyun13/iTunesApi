@@ -15,19 +15,19 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val songRepository: SongRepository
 ): ViewModel() {
-//    private val songList = MutableLiveData<MutableList<Song>>() // FIXME 페이징 처리를 하려고 MutableList 사용
+    private val isLoading = MutableLiveData(false)
     private val trackList = MutableLiveData<MutableList<Track>>() // FIXME 페이징 처리를 하려고 MutableList 사용
 
     private suspend fun searchSong() {
-        Log.d("TAG", "searchSong")
+        isLoading.value = true
         val response = songRepository.searchSong("greenday")
-        Log.d("TAG", "searchSong ${response}")
         when (response) {
             is NetworkStatus.Success -> {
                 Log.d("TAG", "searchSong: ${response.data}")
             }
             is NetworkStatus.Failure -> {} // FIXME
         }
+        isLoading.value = false
     }
 
     init {
