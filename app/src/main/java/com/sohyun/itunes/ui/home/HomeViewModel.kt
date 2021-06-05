@@ -18,6 +18,7 @@ class HomeViewModel @Inject constructor(
     private val songRepository: SongRepository
 ): ViewModel() {
     private val isLoading = MutableLiveData(false)
+    private val isError = MutableLiveData(false)
     private val songList = MutableLiveData<MutableList<SongResponse.Song>>().apply {
         value = arrayListOf()
     }
@@ -32,6 +33,7 @@ class HomeViewModel @Inject constructor(
         val response = songRepository.searchSong("greenday")
         when (response) {
             is NetworkStatus.Success -> {
+                isError.postValue(false)
                 response.data.forEach {
                     if (favoriteIds.value?.contains(it.trackId) == true) {
                         it.isFavorite = true
@@ -40,7 +42,7 @@ class HomeViewModel @Inject constructor(
                 songList.value?.addAll(response.data)
                 songList.backgroundNotifyObserver()
             }
-            is NetworkStatus.Failure -> {} // FIXME
+            is NetworkStatus.Failure -> isError.postValue(true)
         }
         isLoading.postValue(false)
     }
@@ -60,4 +62,5 @@ class HomeViewModel @Inject constructor(
 
     fun getSongList(): LiveData<MutableList<SongResponse.Song>> = songList
     fun isLoading(): LiveData<Boolean> = isLoading
+    fun isError(): LiveData<Boolean> = isError
 }

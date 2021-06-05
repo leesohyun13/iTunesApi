@@ -4,6 +4,8 @@
     <string name="tab_home">Home</string>
     <string name="tab_favorite">Favorite</string>
 
+    <string name="home_error_text">데이터를 가져오는데 문제가 발생했습니다.</string>
+
     <string name="toast_msg_add_track_item">좋아요 목록에 추가되었습니다.</string>
     <string name="toast_msg_remove_track_item">좋아요 목록에 삭제되었습니다.</string>
 </resources>

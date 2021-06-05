@@ -23,8 +23,19 @@
             android:id="@+id/home_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="@{viewmodel.isError ? view.GONE : view.VISIBLE}"
             app:bindItems="@{viewmodel.songList}"
             tools:listitem="@layout/item_track" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_error_text"
+            android:visibility="@{viewmodel.isError ? view.VISIBLE : view.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:layout_width="80dp"
