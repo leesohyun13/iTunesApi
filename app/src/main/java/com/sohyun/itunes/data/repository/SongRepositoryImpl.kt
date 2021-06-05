@@ -6,7 +6,6 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.network.ITunesApi
 import com.sohyun.itunes.data.network.NetworkStatus
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SongRepositoryImpl @Inject constructor(
@@ -16,15 +15,13 @@ class SongRepositoryImpl @Inject constructor(
     override suspend fun searchSong(term: String): NetworkStatus<List<SongResponse.Song>> =
         safeApiCall { iTunesApi.searchSong(term).results }
 
-    override fun getFavoriteList(): Flow<List<Track>> = flow {
-        songLocalDataSource.getFavoriteList()
-    }
+    override suspend fun getFavoriteList(): Flow<MutableList<Track>> = songLocalDataSource.getFavoriteList()
 
-    override fun insertItem(track: Track) {
+    override suspend fun insertItem(track: Track) {
         songLocalDataSource.insertItem(track)
     }
 
-    override fun deleteItem(track: Track) {
+    override suspend fun deleteItem(track: Track) {
         songLocalDataSource.deleteItem(track)
     }
 }

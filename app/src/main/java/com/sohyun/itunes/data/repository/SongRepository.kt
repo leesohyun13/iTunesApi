@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SongRepository {
     suspend fun searchSong(term: String): NetworkStatus<List<SongResponse.Song>>
-    fun getFavoriteList(): Flow<List<Track>>
-    fun insertItem(track: Track)
-    fun deleteItem(track: Track)
+    suspend fun getFavoriteList(): Flow<MutableList<Track>>
+    suspend fun insertItem(track: Track)
+    suspend fun deleteItem(track: Track)
 }
