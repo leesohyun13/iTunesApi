@@ -9,6 +9,8 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.network.NetworkStatus
 import com.sohyun.itunes.data.repository.SongRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,17 +22,32 @@ class HomeViewModel @Inject constructor(
         value = arrayListOf()
     }
 
+    private val favoriteIds = MutableLiveData<MutableList<Int>>().apply {
+        value = arrayListOf()
+    }
+
     suspend fun searchSong() {
-        isLoading.value = true
+        isLoading.postValue(true)
+        withContext(Dispatchers.Default) { fetchFavoriteIds() }
         val response = songRepository.searchSong("greenday")
         when (response) {
             is NetworkStatus.Success -> {
+                response.data.forEach {
+                    if (favoriteIds.value?.contains(it.trackId) == true) {
+                        it.isFavorite = true
+                    }
+                }
                 songList.value?.addAll(response.data)
                 songList.backgroundNotifyObserver()
             }
             is NetworkStatus.Failure -> {} // FIXME
         }
-        isLoading.value = false
+        isLoading.postValue(false)
+    }
+
+    private suspend fun fetchFavoriteIds() {
+        val ids = songRepository.getFavoriteId()
+        ids?.let { favoriteIds.value?.addAll(it) }
     }
 
     suspend fun addFavoriteTrack(track: Track) {
