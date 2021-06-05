@@ -45,13 +45,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 lifecycleScope.launch(Dispatchers.Default) {
                     homeViewModel.addFavoriteTrack(track)
                 }
-                showToastMessage(requireContext(), "좋아요 목록에 추가되었습니다.")
+                showToastMessage(requireContext(), getString(R.string.toast_msg_add_track_item))
             }
             false -> {
                 lifecycleScope.launch(Dispatchers.Default) {
                     homeViewModel.deleteFavoriteTrack(track)
                 }
-                showToastMessage(requireContext(), "좋아요 목록에 삭제되었습니다.")
+                showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
             }
         }
     }

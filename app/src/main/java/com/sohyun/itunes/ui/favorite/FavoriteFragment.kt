@@ -42,7 +42,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
         lifecycleScope.launch(Dispatchers.Default) {
             favoriteViewModel.deleteFavoriteTrack(track)
         }
-        showToastMessage(requireContext(), "좋아요 목록에 삭제되었습니다.")
+        showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
     }
 
     companion object {
