@@ -1,6 +1,8 @@
 package com.sohyun.itunes
 
+import android.content.Context
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -23,4 +25,8 @@ fun setImageUrlOnGlide(view: ImageView, url: String) {
 fun RecyclerView.bindItems(item: List<Any>?) {
     val adapter = adapter as BaseAdapter<Any, BaseViewHolder<Any>>?
     item?.let { adapter?.addAll(item) }
+}
+
+fun showToastMessage(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
