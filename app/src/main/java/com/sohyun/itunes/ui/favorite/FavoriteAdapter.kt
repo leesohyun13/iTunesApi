@@ -30,7 +30,6 @@ class FavoriteAdapter(
             binding.collectionName.text = item.collectionName
 
             binding.favoriteImage.setOnClickListener {
-//                removeItem(item)
                 trackItemListener.onClickTrackItem(false, item)
             }
         }
