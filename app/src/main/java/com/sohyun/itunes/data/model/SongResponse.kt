@@ -63,6 +63,7 @@ data class SongResponse (
         val currency: String,
         @SerializedName("primaryGenreName")
         val primaryGenreName: String,
+        @SerializedName("isFavorite")
         var isFavorite: Boolean = false
     )
 }
