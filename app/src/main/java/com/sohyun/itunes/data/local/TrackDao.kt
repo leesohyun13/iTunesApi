@@ -1,21 +1,15 @@
 package com.sohyun.itunes.data.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.sohyun.itunes.data.model.Track
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TrackDao {
     @Query("SELECT * FROM track")
-    fun getAll(): List<Track>
+    fun getFavoriteList(): Flow<MutableList<Track>>
 
-    @Query("SELECT * FROM track WHERE isFavorite == 1") // true = 1
-    fun getFavoriteList(): Flow<List<Track>>
-
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(track: Track)
 
     @Delete
