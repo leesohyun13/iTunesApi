@@ -1,4 +1,4 @@
-package com.sohyun.itunes
+package com.sohyun.itunes.extension
 
 import androidx.lifecycle.MutableLiveData
 

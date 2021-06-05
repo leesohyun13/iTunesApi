@@ -3,7 +3,7 @@ package com.sohyun.itunes.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sohyun.itunes.backgroundNotifyObserver
+import com.sohyun.itunes.extension.backgroundNotifyObserver
 import com.sohyun.itunes.data.model.SongResponse
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.network.NetworkStatus

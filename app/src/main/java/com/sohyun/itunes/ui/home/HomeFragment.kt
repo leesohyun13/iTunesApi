@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentHomeBinding
-import com.sohyun.itunes.showToastMessage
+import com.sohyun.itunes.extension.showToastMessage
 import com.sohyun.itunes.ui.base.BaseFragment
 import com.sohyun.itunes.ui.base.TrackItemListener
 import dagger.hilt.android.AndroidEntryPoint

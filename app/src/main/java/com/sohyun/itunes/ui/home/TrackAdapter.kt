@@ -8,8 +8,8 @@ import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.SongResponse
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.ItemTrackBinding
-import com.sohyun.itunes.setImageResOnGlide
-import com.sohyun.itunes.setImageUrlOnGlide
+import com.sohyun.itunes.extension.setImageResOnGlide
+import com.sohyun.itunes.extension.setImageUrlOnGlide
 import com.sohyun.itunes.ui.base.BaseAdapter
 import com.sohyun.itunes.ui.base.BaseViewHolder
 import com.sohyun.itunes.ui.base.TrackItemListener

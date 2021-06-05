@@ -1,4 +1,4 @@
-package com.sohyun.itunes
+package com.sohyun.itunes.extension
 
 import android.content.Context
 import android.widget.ImageView
