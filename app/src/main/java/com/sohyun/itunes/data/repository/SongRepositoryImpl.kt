@@ -9,11 +9,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SongRepositoryImpl @Inject constructor(
-    private val iTunesApi: ITunesApi,
-    private val songLocalDataSource: SongLocalDataSource
+        private val iTunesApi: ITunesApi,
+        private val songLocalDataSource: SongLocalDataSource
 ) : SongRepository, BaseRepository() {
-    override suspend fun searchSong(term: String): NetworkStatus<List<SongResponse.Song>> =
-        safeApiCall { iTunesApi.searchSong(term).results }
+    override suspend fun searchSong(term: String): NetworkStatus<List<SongResponse.Song>?> =
+            safeApiCall { iTunesApi.searchSong(term).results }
 
     override suspend fun getFavoriteList(): Flow<MutableList<Track>> = songLocalDataSource.getFavoriteList()
 

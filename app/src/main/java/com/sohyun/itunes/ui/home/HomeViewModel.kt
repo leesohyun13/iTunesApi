@@ -34,13 +34,15 @@ class HomeViewModel @Inject constructor(
         when (response) {
             is NetworkStatus.Success -> {
                 isError.postValue(false)
-                response.data.forEach {
-                    if (favoriteIds.value?.contains(it.trackId) == true) {
-                        it.isFavorite = true
+                response.data?.let {
+                    response.data.forEach {
+                        if (favoriteIds.value?.contains(it.trackId) == true) {
+                            it.isFavorite = true
+                        }
                     }
+                    songList.value?.addAll(response.data)
+                    songList.backgroundNotifyObserver()
                 }
-                songList.value?.addAll(response.data)
-                songList.backgroundNotifyObserver()
             }
             is NetworkStatus.Failure -> isError.postValue(true)
         }
