@@ -35,7 +35,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
             }
         }
 
-        lifecycleScope.launch { favoriteViewModel.getFavoriteTrackList() }
+        lifecycleScope.launch(Dispatchers.Default) { favoriteViewModel.getFavoriteTrackList() }
     }
 
     override fun onClickTrackItem(isFavorite: Boolean, track: Track) {
