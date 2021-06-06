@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentHomeBinding
@@ -33,6 +34,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 adapter = trackAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+
+                addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                        super.onScrollStateChanged(recyclerView, newState)
+                        if (!recyclerView.canScrollVertically(-1)) {
+                            // detect top
+                        } else if (!recyclerView.canScrollVertically(1)) {
+                            // detect bottom
+                            if (homeViewModel.isLoading().value!!) return
+                            lifecycleScope.launch { homeViewModel.searchSong() }
+                            homeViewModel.increasePage()
+                        }
+                    }
+                })
             }
         }
 

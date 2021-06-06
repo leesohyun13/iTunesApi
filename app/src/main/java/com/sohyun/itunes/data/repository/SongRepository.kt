@@ -6,7 +6,7 @@ import com.sohyun.itunes.data.network.NetworkStatus
 import kotlinx.coroutines.flow.Flow
 
 interface SongRepository {
-    suspend fun searchSong(term: String): NetworkStatus<List<SongResponse.Song>?>
+    suspend fun searchSong(term: String, offset: Int): NetworkStatus<List<SongResponse.Song>?>
     suspend fun getFavoriteList(): Flow<MutableList<Track>>
     suspend fun getFavoriteId(): List<Int>?
     suspend fun insertItem(track: Track)
