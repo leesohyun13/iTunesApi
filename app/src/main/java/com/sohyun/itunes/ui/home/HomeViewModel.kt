@@ -10,8 +10,7 @@ import com.sohyun.itunes.data.network.NetworkStatus
 import com.sohyun.itunes.data.repository.SongRepository
 import com.sohyun.itunes.extension.backgroundNotifyObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +30,6 @@ class HomeViewModel @Inject constructor(
 
     suspend fun searchSong() {
         isLoading.postValue(true)
-        withContext(Dispatchers.Default) { fetchFavoriteIds() }
         val response = songRepository.searchSong("greenday", page * DEFAULT_LIMIT)
         when (response) {
             is NetworkStatus.Success -> {
@@ -55,9 +53,13 @@ class HomeViewModel @Inject constructor(
         ++page
     }
 
-    private suspend fun fetchFavoriteIds() {
-        val ids = songRepository.getFavoriteId()
-        ids?.let { favoriteIds.value?.addAll(it) }
+    suspend fun fetchFavoriteIds() {
+        songRepository.getFavoriteId().collect { ids ->
+            ids?.let {
+                favoriteIds.value?.clear()
+                favoriteIds.value?.addAll(it)
+            }
+        }
     }
 
     suspend fun addFavoriteTrack(track: Track) {

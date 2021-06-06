@@ -17,7 +17,7 @@ class SongRepositoryImpl @Inject constructor(
 
     override suspend fun getFavoriteList(): Flow<MutableList<Track>> = songLocalDataSource.getFavoriteList()
 
-    override suspend fun getFavoriteId(): List<Int>? = songLocalDataSource.getFavoriteId()
+    override suspend fun getFavoriteId(): Flow<List<Int>?> = songLocalDataSource.getFavoriteId()
 
     override suspend fun insertItem(track: Track) {
         songLocalDataSource.insertItem(track)

@@ -10,7 +10,7 @@ interface TrackDao {
     fun getFavoriteList(): Flow<MutableList<Track>>
 
     @Query("SELECT trackId FROM track")
-    fun getFavoriteId(): List<Int>?
+    fun getFavoriteId(): Flow<List<Int>?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(track: Track)
