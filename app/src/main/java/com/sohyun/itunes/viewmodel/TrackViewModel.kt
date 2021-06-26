@@ -6,10 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.network.ITunesApi.Companion.DEFAULT_LIMIT
+import com.sohyun.itunes.data.network.NetworkStatus
 import com.sohyun.itunes.data.repository.SongRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,14 +26,28 @@ class TrackViewModel @Inject constructor(
     private val favoriteList = MutableLiveData<MutableList<Track>>(mutableListOf())
 
     suspend fun searchSong() {
-        isLoading.postValue(true)
-        songRepository.searchSong("greenday", page * DEFAULT_LIMIT)
-        isLoading.postValue(false)
-    }
+        viewModelScope.launch {
+            isLoading.postValue(true)
+            val responseDeferred = async { songRepository.searchSong("greenday", page * DEFAULT_LIMIT) }
+            val idsDeferred = async(Dispatchers.Default) { songRepository.getFavoriteId() }
+            val ids = idsDeferred.await()
+            val response = responseDeferred.await()
+            when(response) {
+                is NetworkStatus.Success -> {
+                    val list = trackList.value ?: mutableListOf()
+                    ids?.let {
+                        response.data.forEach {
+                            if (ids.contains(it.trackId)) it.isFavorite = true
+                        }
+                    }
+                    list.addAll(response.data)
+                    trackList.postValue(list)
+                    isError.postValue(false)
+                }
+                is NetworkStatus.Failure -> isError.postValue(true)
 
-    private suspend fun fetchTrackList() {
-        songRepository.getTrackList().collectLatest {
-            trackList.postValue(it)
+            }
+            isLoading.postValue(false)
         }
     }
 
@@ -47,8 +62,18 @@ class TrackViewModel @Inject constructor(
     }
 
     fun onToggleFavorite(track: Track) {
+        updateTrackItem(track)
         viewModelScope.launch(Dispatchers.Default) {
             songRepository.updateTrack(track)
+        }
+    }
+
+    private fun updateTrackItem(track: Track) {
+        trackList.value?.forEach {
+            if (it.trackId == track.trackId) {
+                it.isFavorite = track.isFavorite
+                return@forEach
+            }
         }
     }
 
@@ -59,7 +84,6 @@ class TrackViewModel @Inject constructor(
 
     init {
         viewModelScope.launch { searchSong() }
-        viewModelScope.launch(Dispatchers.Default) { fetchTrackList() }
         viewModelScope.launch(Dispatchers.Default) { fetchFavoriteTrackList() }
     }
 }
