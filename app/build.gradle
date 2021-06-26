@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.35'
     kapt 'com.google.dagger:hilt-compiler:2.35'
 
-    // Room: local 데이터를 저장하기 위해 도와주는 DB
+    // Room: 데이터를 저장하기 위한 local DB
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
