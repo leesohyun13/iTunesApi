@@ -10,6 +10,5 @@ data class Track(
     val collectionName: String,
     val artworkUrl60: String,
     val artistName: String,
-    val artwork: String,
     var isFavorite: Boolean
 )
