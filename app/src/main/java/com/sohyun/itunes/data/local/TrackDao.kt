@@ -24,9 +24,12 @@ interface TrackDao {
     @Query("DELETE FROM track WHERE trackId = :trackId")
     fun deleteItemById(trackId: Int)
 
-    @Update
-    suspend fun updateTrack(track: Track)
+    @Query("UPDATE track SET isFavorite = :isFavorite WHERE trackId = :trackId")
+    suspend fun updateTrack(isFavorite: Boolean, trackId: Int)
 
     @Delete
     fun deleteItem(track: Track)
+
+    @Query("DELETE FROM track WHERE isFavorite = :isFavorite")
+    fun clearTracks(isFavorite: Boolean = false)
 }

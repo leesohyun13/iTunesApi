@@ -12,6 +12,7 @@ class SongLocalDataSourceImpl @Inject constructor(
     override suspend fun getFavoriteId(): List<Int>? = trackDao.getFavoriteId()
     override suspend fun insertItem(track: Track) = trackDao.insertItem(track)
     override suspend fun insertTracks(tracks: List<Track>) = trackDao.insertTracks(tracks)
-    override suspend fun updateTrack(track: Track) = trackDao.updateTrack(track)
+    override suspend fun updateTrack(isFavorite: Boolean, trackId: Int) = trackDao.updateTrack(isFavorite, trackId)
     override suspend fun deleteItemById(trackId: Int) = trackDao.deleteItemById(trackId)
+    override suspend fun clearTracks() = trackDao.clearTracks()
 }

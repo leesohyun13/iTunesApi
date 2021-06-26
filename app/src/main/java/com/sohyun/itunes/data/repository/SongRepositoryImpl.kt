@@ -3,7 +3,6 @@ package com.sohyun.itunes.data.repository
 import com.sohyun.itunes.data.local.SongLocalDataSource
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.network.ITunesApi
-import com.sohyun.itunes.data.network.NetworkStatus
 import com.sohyun.itunes.extension.mapToTrack
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,8 +11,10 @@ class SongRepositoryImpl @Inject constructor(
         private val iTunesApi: ITunesApi,
         private val songLocalDataSource: SongLocalDataSource
 ) : SongRepository, BaseRepository() {
-    override suspend fun searchSong(term: String, offset: Int): NetworkStatus<List<Track>> =
-            safeApiCall { iTunesApi.searchSong(term, offset = offset).mapToTrack() }
+    override suspend fun searchSong(term: String, offset: Int) {
+        val response = iTunesApi.searchSong(term, offset = offset).mapToTrack()
+        songLocalDataSource.insertTracks(response)
+    }
 
     override suspend fun getTrackList(): Flow<MutableList<Track>> = songLocalDataSource.getTrackList()
 
@@ -29,12 +30,15 @@ class SongRepositoryImpl @Inject constructor(
         songLocalDataSource.insertTracks(tracks)
     }
 
-    override suspend fun updateTrack(track: Track) {
-        if (track.isFavorite) songLocalDataSource.insertItem(track)
-        else songLocalDataSource.deleteItemById(track.trackId)
+    override suspend fun updateTrack(isFavorite: Boolean, trackId: Int) {
+        songLocalDataSource.updateTrack(isFavorite, trackId)
     }
 
     override suspend fun deleteItemById(trackId: Int) {
         songLocalDataSource.deleteItemById(trackId)
+    }
+
+    override suspend fun clearTracks() {
+        songLocalDataSource.clearTracks()
     }
 }

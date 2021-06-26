@@ -9,6 +9,7 @@ interface SongLocalDataSource {
     suspend fun getFavoriteId(): List<Int>?
     suspend fun insertItem(track: Track)
     suspend fun insertTracks(tracks: List<Track>)
-    suspend fun updateTrack(track: Track)
+    suspend fun updateTrack(isFavorite: Boolean, trackId: Int)
     suspend fun deleteItemById(trackId: Int)
+    suspend fun clearTracks()
 }
