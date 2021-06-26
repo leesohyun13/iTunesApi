@@ -10,5 +10,5 @@ interface SongRepository {
     suspend fun getFavoriteList(): Flow<MutableList<Track>>
     suspend fun getFavoriteId(): Flow<List<Int>?>
     suspend fun insertItem(track: Track)
-    suspend fun deleteItem(track: Track)
+    suspend fun deleteItemById(trackId: Int)
 }

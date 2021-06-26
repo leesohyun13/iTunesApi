@@ -15,6 +15,9 @@ interface TrackDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(track: Track)
 
+    @Query("DELETE FROM track WHERE trackId = :trackId")
+    fun deleteItemById(trackId: Int)
+
     @Delete
     fun deleteItem(track: Track)
 }

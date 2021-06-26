@@ -23,7 +23,7 @@ class SongRepositoryImpl @Inject constructor(
         songLocalDataSource.insertItem(track)
     }
 
-    override suspend fun deleteItem(track: Track) {
-        songLocalDataSource.deleteItem(track)
+    override suspend fun deleteItemById(trackId: Int) {
+        songLocalDataSource.deleteItemById(trackId)
     }
 }

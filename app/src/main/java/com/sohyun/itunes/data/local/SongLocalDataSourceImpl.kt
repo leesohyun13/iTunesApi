@@ -10,5 +10,5 @@ class SongLocalDataSourceImpl @Inject constructor(
     override suspend fun getFavoriteList(): Flow<MutableList<Track>> = trackDao.getFavoriteList()
     override suspend fun getFavoriteId(): Flow<List<Int>?> = trackDao.getFavoriteId()
     override suspend fun insertItem(track: Track) = trackDao.insertItem(track)
-    override suspend fun deleteItem(track: Track) = trackDao.deleteItem(track)
+    override suspend fun deleteItemById(trackId: Int) = trackDao.deleteItemById(trackId)
 }
