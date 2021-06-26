@@ -9,23 +9,26 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.ItemTrackBinding
 
 class TrackAdapter(
-        val trackItemListener: TrackItemListener
+        private val trackItemListener: TrackItemListener
 ) : ListAdapter<Track, TrackAdapter.ViewHolder>(TrackDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(
-                    ItemTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemTrackBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+                    trackItemListener
             )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemTrackBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+            private val binding: ItemTrackBinding,
+            private val trackItemListener: TrackItemListener
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Track) {
             with(binding) {
                 track = item
                 favoriteImage.setOnClickListener {
-                    track = item // FIXME
                     trackItemListener.onClickTrackItem(item)
                 }
                 executePendingBindings()
