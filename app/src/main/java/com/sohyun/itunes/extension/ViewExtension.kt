@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.ui.adapter.TrackAdapter
 
@@ -13,6 +14,7 @@ import com.sohyun.itunes.ui.adapter.TrackAdapter
 fun ImageView.bindGlideImage(url: String) {
     Glide.with(context)
             .load(url)
+            .error(R.color.black)
             .into(this)
 }
 
