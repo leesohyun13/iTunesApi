@@ -3,20 +3,16 @@ package com.sohyun.itunes.ui.favorite
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentFavoriteBinding
 import com.sohyun.itunes.extension.showToastMessage
-import com.sohyun.itunes.ui.base.BaseFragment
-import com.sohyun.itunes.ui.adapter.TrackItemListener
 import com.sohyun.itunes.ui.adapter.TrackAdapter
+import com.sohyun.itunes.ui.adapter.TrackItemListener
+import com.sohyun.itunes.ui.base.BaseFragment
 import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite), TrackItemListener {
