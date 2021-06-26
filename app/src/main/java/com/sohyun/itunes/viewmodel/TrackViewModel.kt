@@ -37,7 +37,7 @@ class TrackViewModel @Inject constructor(
     }
 
     private suspend fun fetchFavoriteTrackList() {
-        songRepository.getFavoriteList().collect { tracks ->
+        songRepository.getFavoriteList().collectLatest { tracks ->
             favoriteList.postValue(tracks)
         }
     }
