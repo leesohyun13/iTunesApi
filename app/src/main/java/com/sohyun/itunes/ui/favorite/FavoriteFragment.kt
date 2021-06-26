@@ -41,9 +41,4 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
         trackViewModel.onToggleFavorite(track)
         showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

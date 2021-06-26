@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
 open class BaseFragment<B : ViewDataBinding>(private val resId: Int): Fragment() {
-    protected var _binding: B? = null
+    private var _binding: B? = null
     protected val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,5 +19,10 @@ open class BaseFragment<B : ViewDataBinding>(private val resId: Int): Fragment()
     ): View? {
         _binding = DataBindingUtil.inflate(layoutInflater, resId, null, false)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

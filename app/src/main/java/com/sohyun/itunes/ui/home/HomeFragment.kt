@@ -56,9 +56,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             false -> showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
