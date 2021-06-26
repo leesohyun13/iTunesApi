@@ -26,7 +26,7 @@ fun ImageView.bindResOnGlide(resId: Int) {
 }
 
 @BindingAdapter("bindItems")
-fun RecyclerView.bindItems(item: MutableList<Track>?) {
+fun RecyclerView.bindItems(item: List<Track>?) {
     val adapter = adapter as TrackAdapter
     item?.let { adapter.submitList(item.toMutableList()) }
 }
