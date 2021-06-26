@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
@@ -33,14 +32,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeRecyclerView.run {
                 val trackAdapter = TrackAdapter(this@HomeFragment)
                 adapter = trackAdapter
-                layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
                 addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                         super.onScrollStateChanged(recyclerView, newState)
-                        if (!recyclerView.canScrollVertically(-1)) {
-                            // detect top
-                        } else if (!recyclerView.canScrollVertically(1)) {
+                        if (!recyclerView.canScrollVertically(1)) {
                             // detect bottom
                             if (trackViewModel.isLoading().value!!) return
                             trackViewModel.increasePage()
@@ -64,9 +60,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        fun newInstance() = HomeFragment()
     }
 }

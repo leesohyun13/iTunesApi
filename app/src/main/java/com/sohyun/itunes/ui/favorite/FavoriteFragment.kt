@@ -31,7 +31,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
             favoriteRecyclerview.run {
                 val favoriteAdapter = TrackAdapter(this@FavoriteFragment)
                 adapter = favoriteAdapter
-                layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             }
         }
@@ -46,9 +45,5 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        fun newInstance() = FavoriteFragment()
     }
 }
