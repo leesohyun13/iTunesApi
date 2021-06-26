@@ -6,25 +6,27 @@ import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sohyun.itunes.ui.base.BaseAdapter
-import com.sohyun.itunes.ui.base.BaseViewHolder
+import com.sohyun.itunes.data.model.Track
+import com.sohyun.itunes.ui.adapter.TrackAdapter
 
-fun setImageResOnGlide(view: ImageView, resId: Int) {
-    Glide.with(view.context)
-        .load(resId)
-        .into(view)
+@BindingAdapter("bindGlideImage")
+fun ImageView.bindGlideImage(url: String) {
+    Glide.with(context)
+            .load(url)
+            .into(this)
 }
 
-fun setImageUrlOnGlide(view: ImageView, url: String) {
-    Glide.with(view.context)
-        .load(url)
-        .into(view)
+@BindingAdapter("bindResOnGlide")
+fun ImageView.bindResOnGlide(resId: Int) {
+    Glide.with(context)
+            .load(resId)
+            .into(this)
 }
 
 @BindingAdapter("bindItems")
-fun RecyclerView.bindItems(item: List<Any>?) {
-    val adapter = adapter as BaseAdapter<Any, BaseViewHolder<Any>>?
-    item?.let { adapter?.addAll(item) }
+fun RecyclerView.bindItems(item: MutableList<Track>?) {
+    val adapter = adapter as TrackAdapter
+    item?.let { adapter.submitList(item.toMutableList()) }
 }
 
 fun showToastMessage(context: Context, message: String) {

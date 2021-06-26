@@ -9,14 +9,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
 open class BaseFragment<B : ViewDataBinding>(private val resId: Int): Fragment() {
-    protected lateinit var binding: B
+    protected var _binding: B? = null
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(layoutInflater, resId, null, false)
+        _binding = DataBindingUtil.inflate(layoutInflater, resId, null, false)
         return binding.root
     }
 }

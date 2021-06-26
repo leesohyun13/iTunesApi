@@ -2,7 +2,7 @@ package com.sohyun.itunes.ui.favorite
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,38 +11,41 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentFavoriteBinding
 import com.sohyun.itunes.extension.showToastMessage
 import com.sohyun.itunes.ui.base.BaseFragment
-import com.sohyun.itunes.ui.base.TrackItemListener
+import com.sohyun.itunes.ui.adapter.TrackItemListener
+import com.sohyun.itunes.ui.adapter.TrackAdapter
+import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite), TrackItemListener  {
-    private val favoriteViewModel: FavoriteViewModel by viewModels()
-    private lateinit var favoriteAdapter: FavoriteAdapter
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite), TrackItemListener {
+    private val trackViewModel: TrackViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            viewmodel = favoriteViewModel
+            viewmodel = trackViewModel
             lifecycleOwner = this@FavoriteFragment
 
             favoriteRecyclerview.run {
-                favoriteAdapter = FavoriteAdapter(this@FavoriteFragment)
+                val favoriteAdapter = TrackAdapter(this@FavoriteFragment)
                 adapter = favoriteAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             }
         }
-
-        lifecycleScope.launch(Dispatchers.Default) { favoriteViewModel.getFavoriteTrackList() }
     }
 
-    override fun onClickTrackItem(isFavorite: Boolean, track: Track) {
-        lifecycleScope.launch(Dispatchers.Default) {
-            favoriteViewModel.deleteFavoriteTrack(track)
-        }
+    override fun onClickTrackItem(track: Track) {
+        track.isFavorite = !track.isFavorite
+        trackViewModel.onToggleFavorite(track)
         showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
