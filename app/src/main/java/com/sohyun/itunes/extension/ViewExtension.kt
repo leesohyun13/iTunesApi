@@ -27,8 +27,7 @@ fun ImageView.bindResOnGlide(resId: Int) {
 
 @BindingAdapter("bindItems")
 fun RecyclerView.bindItems(item: List<Track>?) {
-    val adapter = adapter as TrackAdapter
-    item?.let { adapter.submitList(item.toMutableList()) }
+    (adapter as TrackAdapter).submitList(item?.toMutableList() ?: emptyList())
 }
 
 fun showToastMessage(context: Context, message: String) {
