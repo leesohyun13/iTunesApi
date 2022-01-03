@@ -12,43 +12,39 @@ import com.sohyun.itunes.databinding.FragmentHomeBinding
 import com.sohyun.itunes.extension.showToastMessage
 import com.sohyun.itunes.ui.adapter.TrackAdapter
 import com.sohyun.itunes.ui.adapter.TrackItemListener
+import com.sohyun.itunes.ui.adapter.TrackPagingAdapter
 import com.sohyun.itunes.ui.base.BaseFragment
 import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 // 기존 화면을 유지할 수 있는 방법이 무엇일까?
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), TrackItemListener {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val trackViewModel: TrackViewModel by activityViewModels()
+    private val trackAdapter = TrackPagingAdapter { track ->  onClickTrackItem(track) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
             viewmodel = trackViewModel
-            lifecycleOwner = this@HomeFragment
-
+            lifecycleOwner = viewLifecycleOwner
             homeRecyclerView.run {
-                val trackAdapter = TrackAdapter(this@HomeFragment)
                 adapter = trackAdapter
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-                addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        super.onScrollStateChanged(recyclerView, newState)
-                        if (!recyclerView.canScrollVertically(1)) {
-                            // detect bottom
-                            if (trackViewModel.isLoading().value!!) return
-                            trackViewModel.increasePage()
-                            lifecycleScope.launch { trackViewModel.searchSong() }
-                        }
-                    }
-                })
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            trackViewModel.getSearchSongsStream().collectLatest {
+                trackAdapter.submitData(it)
             }
         }
     }
 
-    override fun onClickTrackItem(track: Track) {
+    private fun onClickTrackItem(track: Track) {
         track.isFavorite = !track.isFavorite
         trackViewModel.onToggleFavorite(track)
         when (track.isFavorite) {

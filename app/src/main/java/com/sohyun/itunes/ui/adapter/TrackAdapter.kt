@@ -9,7 +9,7 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.ItemTrackBinding
 
 class TrackAdapter(
-        private val trackItemListener: TrackItemListener
+    private val trackItemListener: TrackItemListener
 ) : ListAdapter<Track, TrackAdapter.ViewHolder>(TrackDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
             ViewHolder(

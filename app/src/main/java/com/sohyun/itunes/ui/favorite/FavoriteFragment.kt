@@ -22,7 +22,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewmodel = trackViewModel
-            lifecycleOwner = this@FavoriteFragment
+            lifecycleOwner = viewLifecycleOwner
 
             favoriteRecyclerview.run {
                 val favoriteAdapter = TrackAdapter(this@FavoriteFragment)

@@ -11,9 +11,9 @@ class SongRepositoryImpl @Inject constructor(
         private val iTunesApi: ITunesApi,
         private val songLocalDataSource: SongLocalDataSource
 ) : SongRepository, BaseRepository() {
-    override suspend fun searchSong(term: String, offset: Int) {
-        val response = iTunesApi.searchSong(term, offset = offset).mapToTrack()
-        songLocalDataSource.insertTracks(response)
+    override suspend fun searchSong(term: String, offset: Int): List<Track> {
+//        songLocalDataSource.insertTracks(iTunesApi.searchSong(term, offset = offset).mapToTrack())
+        return iTunesApi.searchSong(term, offset = offset).mapToTrack()
     }
 
     override suspend fun getTrackList(): Flow<MutableList<Track>> = songLocalDataSource.getTrackList()

@@ -8,5 +8,6 @@ sealed class NetworkStatus<out T> {
         val isNetworkError: Boolean,
         val errorCode: Int?,
         val errorBody: ResponseBody?
-    ) : NetworkStatus<Nothing>()
+    ): NetworkStatus<Nothing>()
+    object Loading: NetworkStatus<Nothing>()
 }
