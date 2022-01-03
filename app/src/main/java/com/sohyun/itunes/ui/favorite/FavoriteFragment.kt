@@ -8,8 +8,8 @@ import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentFavoriteBinding
 import com.sohyun.itunes.extension.showToastMessage
-import com.sohyun.itunes.ui.adapter.TrackAdapter
 import com.sohyun.itunes.ui.adapter.TrackItemListener
+import com.sohyun.itunes.ui.adapter.TrackPagingAdapter
 import com.sohyun.itunes.ui.base.BaseFragment
 import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,16 +17,15 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite), TrackItemListener {
     private val trackViewModel: TrackViewModel by activityViewModels()
+    private val trackAdapter = TrackPagingAdapter { track ->  onClickTrackItem(track) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             viewmodel = trackViewModel
             lifecycleOwner = viewLifecycleOwner
-
             favoriteRecyclerview.run {
-                val favoriteAdapter = TrackAdapter(this@FavoriteFragment)
-                adapter = favoriteAdapter
+                adapter = trackAdapter
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             }
         }

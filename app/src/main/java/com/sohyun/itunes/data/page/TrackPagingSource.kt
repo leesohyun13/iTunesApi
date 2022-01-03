@@ -50,6 +50,6 @@ class TrackPagingSource(
     }
 
     companion object {
-        const val CONTENTS_COUNT = 20
+        const val CONTENTS_COUNT = 10
     }
 }

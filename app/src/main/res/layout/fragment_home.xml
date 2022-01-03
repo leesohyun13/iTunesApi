@@ -24,7 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:visibility="@{viewmodel.isError ? view.GONE : view.VISIBLE}"
-            app:bindItems="@{viewmodel.trackList}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
