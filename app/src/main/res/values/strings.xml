@@ -8,4 +8,6 @@
 
     <string name="toast_msg_add_track_item">좋아요 목록에 추가되었습니다.</string>
     <string name="toast_msg_remove_track_item">좋아요 목록에 삭제되었습니다.</string>
+    <string name="title_dynamicfeature">Module Title</string>
+    <string name="title_dynamicfeature2">Module Title</string>
 </resources>
