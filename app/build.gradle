@@ -59,6 +59,10 @@ dependencies {
     implementation Dependencies.livedataLifecycle
     kapt Dependencies.lifecycleCompiler
 
+    // navigation
+    implementation Dependencies.navigationFragment
+    implementation Dependencies.navigationUi
+
     // Activity/Fragment Kotlin Extension
     implementation Dependencies.activity
     implementation Dependencies.fragment
