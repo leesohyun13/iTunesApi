@@ -9,6 +9,7 @@ import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.data.page.TrackPagingSource
 import com.sohyun.itunes.data.page.TrackPagingSource.Companion.CONTENTS_COUNT
 import com.sohyun.itunes.data.repository.SongRepository
+import com.sohyun.itunes.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TrackViewModel @Inject constructor(
     private val songRepository: SongRepository
-): ViewModel() {
+): BaseViewModel() {
     private val isLoading = MutableLiveData(false)
     private val isError = MutableLiveData(false)
 

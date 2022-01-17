@@ -15,15 +15,14 @@ import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite), TrackItemListener {
-    private val trackViewModel: TrackViewModel by activityViewModels()
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, TrackViewModel>(R.layout.fragment_favorite), TrackItemListener {
+    override val viewModel: TrackViewModel by activityViewModels()
     private val trackAdapter = TrackPagingAdapter { track ->  onClickTrackItem(track) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            viewmodel = trackViewModel
-            lifecycleOwner = viewLifecycleOwner
+            viewmodel = viewModel
             favoriteRecyclerview.run {
                 adapter = trackAdapter
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
@@ -33,7 +32,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
 
     override fun onClickTrackItem(track: Track) {
         track.isFavorite = !track.isFavorite
-        trackViewModel.onToggleFavorite(track)
+        viewModel.onToggleFavorite(track)
         showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
     }
 }
