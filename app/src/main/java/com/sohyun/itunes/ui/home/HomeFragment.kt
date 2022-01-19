@@ -15,7 +15,6 @@ import com.sohyun.itunes.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-// 기존 화면을 유지할 수 있는 방법이 무엇일까?
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.fragment_home) {
     override val viewModel: TrackViewModel by activityViewModels()
@@ -25,7 +24,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            viewmodel = viewModel
             homeRecyclerView.run {
                 adapter = trackAdapter
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
