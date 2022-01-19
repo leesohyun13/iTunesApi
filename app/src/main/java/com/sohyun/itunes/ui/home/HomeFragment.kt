@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.fragment_home) {
     override val viewModel: TrackViewModel by activityViewModels()
-    private val trackAdapter = TrackPagingAdapter { track ->  onClickTrackItem(track) }
+    private val trackAdapter = TrackPagingAdapter { track -> viewModel.onToggleFavorite(track) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,15 +32,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.trackListFlow.collectLatest { it?.let { trackAdapter.submitData(it) } }
-        }
-    }
-
-    private fun onClickTrackItem(track: Track) {
-        track.isFavorite = !track.isFavorite
-        viewModel.onToggleFavorite(track)
-        when (track.isFavorite) {
-            true -> showToastMessage(requireContext(), getString(R.string.toast_msg_add_track_item))
-            false -> showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
         }
     }
 }

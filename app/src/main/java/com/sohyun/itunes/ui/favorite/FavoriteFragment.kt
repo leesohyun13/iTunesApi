@@ -6,10 +6,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sohyun.itunes.R
-import com.sohyun.itunes.data.model.Track
 import com.sohyun.itunes.databinding.FragmentFavoriteBinding
-import com.sohyun.itunes.extension.showToastMessage
-import com.sohyun.itunes.ui.adapter.TrackItemListener
 import com.sohyun.itunes.ui.adapter.TrackPagingAdapter
 import com.sohyun.itunes.ui.base.BaseFragment
 import com.sohyun.itunes.viewmodel.TrackViewModel
@@ -17,9 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, TrackViewModel>(R.layout.fragment_favorite), TrackItemListener {
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, TrackViewModel>(R.layout.fragment_favorite) {
     override val viewModel: TrackViewModel by activityViewModels()
-    private val trackAdapter = TrackPagingAdapter { track ->  onClickTrackItem(track) }
+    private val trackAdapter = TrackPagingAdapter { track -> viewModel.onToggleFavorite(track) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,11 +30,5 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, TrackViewModel>(R
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.trackListFlow.collectLatest { it?.let { trackAdapter.submitData(it) } }
         }
-    }
-
-    override fun onClickTrackItem(track: Track) {
-        track.isFavorite = !track.isFavorite
-        viewModel.onToggleFavorite(track)
-        showToastMessage(requireContext(), getString(R.string.toast_msg_remove_track_item))
     }
 }
