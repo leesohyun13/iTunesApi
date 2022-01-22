@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SongLocalDataSourceImpl @Inject constructor(
-    private val trackDao: TrackDao
+    private val trackDao: TrackDao,
 ) : SongLocalDataSource {
     override suspend fun getTrackList(): Flow<MutableList<Track>> = trackDao.getTrackList()
     override suspend fun getFavoriteList(): Flow<MutableList<Track>> = trackDao.getFavoriteList()

@@ -16,7 +16,7 @@ import com.sohyun.itunes.databinding.ItemTrackBinding
  * Description:
  */
 class TrackPagingAdapter(
-    private val clicked: (Track) -> Unit
+    private val clicked: (Track) -> Track
 ) : PagingDataAdapter<Track, TrackViewHolder>(TrackPagingDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder =
         TrackViewHolder(
@@ -31,18 +31,18 @@ class TrackPagingAdapter(
 
 class TrackViewHolder(
     private val binding: ItemTrackBinding,
-    private val clicked: (Track) -> Unit
+    private val clicked: (Track) -> Track
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Track) {
         with(binding) {
             track = item
-            favoriteImage.setOnClickListener { clicked.invoke(item) }
+            favoriteImage.setOnClickListener { track = clicked.invoke(item) }
             executePendingBindings()
         }
     }
 }
 
-private object TrackPagingDiffCallback : DiffUtil.ItemCallback<Track>() {
+object TrackPagingDiffCallback : DiffUtil.ItemCallback<Track>() {
     override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean {
         return oldItem == newItem
     }
