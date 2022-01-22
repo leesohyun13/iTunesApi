@@ -1,6 +1,7 @@
 package com.sohyun.itunes.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.fragment_home) {
+    private val TAG = HomeFragment::class.java.simpleName
     override val viewModel: TrackViewModel by activityViewModels()
     private val trackAdapter = TrackPagingAdapter { track -> viewModel.onToggleFavorite(track) }
 
@@ -26,12 +28,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, TrackViewModel>(R.layout.
         with(binding) {
             homeRecyclerView.run {
                 adapter = trackAdapter
+                setHasFixedSize(true)
                 addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.trackListFlow.collectLatest { it?.let { trackAdapter.submitData(it) } }
+            viewModel.trackListFlow.collectLatest { it?.let {
+                Log.d(TAG, "track list response $it")
+                trackAdapter.submitData(it)
+            } }
         }
     }
 }
