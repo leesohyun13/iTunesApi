@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.sohyun.itunes.BR
 
-class DatBindingAdapter<ITEM, VH> constructor(
+abstract class DatBindingAdapter<ITEM> constructor(
     private val onItemClickListener: ((view: View, position: Int, item: ITEM) -> Unit)? = null,
     private val variableId: Int? = BR.item,
-): BaseRecyclerviewAdapter<ITEM, BaseViewHolder<ITEM>>() {
+): BaseListAdapter<ITEM>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<ITEM> {
         return BaseViewHolder<ITEM>(
             DataBindingUtil.inflate(
@@ -31,4 +31,10 @@ class DatBindingAdapter<ITEM, VH> constructor(
     override fun onBindViewHolder(holder: BaseViewHolder<ITEM>, position: Int) {
         holder.onBind(getItem(position))
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return getLayoutResType(position)
+    }
+
+    abstract fun getLayoutResType(position: Int): Int
 }

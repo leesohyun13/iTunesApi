@@ -9,10 +9,14 @@ open class BaseViewHolder<ITEM>(
     private val variableId: Int? = BR.item,
 ) : RecyclerView.ViewHolder(dataBinding.root) {
     fun onBind(item: ITEM?) {
-//        this.item = item
-        variableId?.let {
-            dataBinding.setVariable(it, item)
+        try {
+            variableId?.let {
+                dataBinding.setVariable(it, item)
+            }
+
+            dataBinding.executePendingBindings()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        dataBinding.executePendingBindings()
     }
 }

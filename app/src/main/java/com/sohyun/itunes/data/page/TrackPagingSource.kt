@@ -1,8 +1,10 @@
 package com.sohyun.itunes.data.page
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.sohyun.itunes.data.model.Track
+import com.sohyun.itunes.data.model.ui.TrackUiData
 import com.sohyun.itunes.data.repository.SongRepository
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,8 +19,9 @@ import java.io.IOException
 class TrackPagingSource(
     private val songRepository: SongRepository,
     private val term: String,
-) : PagingSource<Int, Track>() {
-    override fun getRefreshKey(state: PagingState<Int, Track>): Int? {
+) : PagingSource<Int, TrackUiData>() {
+    val TAG = TrackPagingSource::class.java.simpleName
+    override fun getRefreshKey(state: PagingState<Int, TrackUiData>): Int? {
         // Try to find the page key of the closest page to anchorPosition, from
         // either the prevKey or the nextKey, but you need to handle nullability
         // here:
@@ -32,11 +35,12 @@ class TrackPagingSource(
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Track> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TrackUiData> {
         return try {
             val currentPageNumber = params.key ?: 1
             val prevKey = if (currentPageNumber == 1) null else currentPageNumber - 1
-            val response = songRepository.searchSong(term, currentPageNumber * CONTENTS_COUNT) // FIXME
+            val response = songRepository.searchSong(term, currentPageNumber * CONTENTS_COUNT).convertUiData(prevKey)
+            Log.d(TAG,"prevKey $prevKey response $response")
                 LoadResult.Page(
                     data = response,
                     prevKey = prevKey,
@@ -46,6 +50,13 @@ class TrackPagingSource(
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {
             return LoadResult.Error(exception)
+        }
+    }
+
+    private fun List<Track>.convertUiData(prevKey: Int?): List<TrackUiData> {
+        return mutableListOf<TrackUiData>().apply {
+            if (prevKey == null) add(TrackUiData.Title("$term 검색어"))
+            add(TrackUiData.Content(this@convertUiData))
         }
     }
 

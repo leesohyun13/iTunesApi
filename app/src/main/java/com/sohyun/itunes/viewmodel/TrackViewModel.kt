@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.sohyun.itunes.R
 import com.sohyun.itunes.data.model.Track
+import com.sohyun.itunes.data.model.ui.TrackUiData
 import com.sohyun.itunes.data.page.TrackPagingSource
 import com.sohyun.itunes.data.page.TrackPagingSource.Companion.CONTENTS_COUNT
 import com.sohyun.itunes.data.repository.SongRepository
@@ -30,8 +31,8 @@ class TrackViewModel @Inject constructor(
     private val _favoriteList = MutableLiveData<MutableList<Track>>(mutableListOf())
     val favoriteList: LiveData<MutableList<Track>> = _favoriteList
 
-    private val _trackListFlow: MutableStateFlow<PagingData<Track>?> = MutableStateFlow(null)
-    val trackListFlow: StateFlow<PagingData<Track>?> = _trackListFlow.asStateFlow()
+    private val _trackListFlow: MutableStateFlow<PagingData<TrackUiData>?> = MutableStateFlow(null)
+    val trackListFlow: StateFlow<PagingData<TrackUiData>?> = _trackListFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -40,7 +41,7 @@ class TrackViewModel @Inject constructor(
         }
     }
 
-    private fun getSearchSongsStream(): Flow<PagingData<Track>> {
+    private fun getSearchSongsStream(): Flow<PagingData<TrackUiData>> {
         return Pager(PagingConfig(pageSize = CONTENTS_COUNT)) {
             TrackPagingSource(songRepository, "greenday")
         }

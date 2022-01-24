@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="track"
+            name="item"
             type="com.sohyun.itunes.data.model.Track" />
 
         <import type="com.sohyun.itunes.R" />
@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_marginVertical="12dp"
             android:layout_marginStart="8dp"
-            app:bindGlideImage="@{track.artworkUrl60}"
+            app:bindGlideImage="@{item.artworkUrl60}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
-            android:text="@{track.trackName}"
+            android:text="@{item.trackName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/track_image"
             app:layout_constraintTop_toTopOf="@id/track_image" />
@@ -46,7 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{track.collectionName}"
+            android:text="@{item.collectionName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/track_name"
             app:layout_constraintTop_toBottomOf="@id/track_name" />
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{track.artistName}"
+            android:text="@{item.artistName}"
             app:layout_constraintStart_toStartOf="@id/track_name"
             app:layout_constraintTop_toBottomOf="@id/collection_name" />
 
@@ -68,7 +68,7 @@
             android:padding="4dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
-            app:bindResOnGlide="@{track.favorite ? R.drawable.baseline_star_black_20 : R.drawable.baseline_star_border_black_20}"
+            app:bindResOnGlide="@{item.favorite ? R.drawable.baseline_star_black_20 : R.drawable.baseline_star_border_black_20}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

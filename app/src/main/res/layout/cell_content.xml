@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.favorite.FavoriteFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="viewmodel"
-            type="com.sohyun.itunes.viewmodel.TrackViewModel" />
+            name="item"
+            type="com.sohyun.itunes.data.model.ui.TrackUiData.Content" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favorite_recyclerview"
+            android:id="@+id/track_recyclerView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:bindItems="@{viewmodel.favoriteList}"
+            android:layout_height="match_parent"
+            app:bindItems="@{item.tracks}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:listitem="@layout/item_track" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
